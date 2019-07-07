@@ -1,0 +1,16 @@
+main: me.ChestOrganizer.main.ChestOrganizer
+name: ChestOrganizer
+author: CJM
+version: 1.0
+api-version: 1.14
+description: Players can auto organize chests
+
+commands:
+   ChestOrganizer:
+      usage: /ChestOrganizer
+      aliases: [co]
+      
+permissions:
+   ChestOrganizer.SortContainer:
+      description: Allowed to sort contatiners
+      default: true
