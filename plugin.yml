@@ -17,3 +17,6 @@ permissions:
    ChestOrganizer.SortPlayerInventory:
       description: Allowed to sort own player inventory
       default: true
+   ChestOrganizer.SortPlayerInventory.Other:
+      description: Allowed to sort other players inventory
+      default: false

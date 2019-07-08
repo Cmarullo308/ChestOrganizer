@@ -113,32 +113,6 @@ public class Sorter {
 		// Sort
 		sortContents(upperitems);
 
-//		for (int i = 0; i < upperitems.length; i++) {
-//			if (upperitems[i] != null) {
-//				plugin.consoleMessage(i + ": " + upperitems[i]);
-//			} else {
-//				plugin.consoleMessage(i + ": null");
-//			}
-//		}
-
-//		for (int i = 0; i < upperitems.length; i++) {
-//			if (upperitems[i] != null) {
-//				player.getInventory().getContents()[i + 9] = upperitems[i];
-//			} else {
-//				player.getInventory().getContents()[i + 9] = null;
-//			}
-//		}
-
-//		ItemStack[] newContents = player.getInventory().getContents();
-//
-//		for (int i = 9; i < 36; i++) {
-//			if (upperitems[i - 9] != null) {
-//				newContents[i] = upperitems[i - 9];
-//			} else {
-//				newContents[i] = null;
-//			}
-//		}
-
 		ItemStack[] barItems = new ItemStack[9];
 		for (int i = 0; i < 9; i++) {
 			if (player.getInventory().getContents()[i] != null) {
@@ -155,16 +129,19 @@ public class Sorter {
 
 		player.getInventory().clear();
 
+		// Make all the bottom slots water bukkets temporarily for when it adds the rest
 		for (int i = 0; i < 9; i++) {
 			player.getInventory().addItem(new ItemStack(Material.WATER_BUCKET));
 		}
 
+		//Adds all the upperitems back
 		for (int i = 0; i < upperitems.length; i++) {
 			if (upperitems[i] != null) {
 				player.getInventory().addItem(upperitems[i]);
 			}
 		}
 
+		//Adds all the armor back and left hand
 		if (armorItems[0] != null) {
 			player.getInventory().setBoots(armorItems[0]);
 		}
@@ -180,6 +157,7 @@ public class Sorter {
 		if (armorItems[4] != null) {
 			player.getInventory().setItemInOffHand(armorItems[4]);
 		}
+		//--------------------------------------
 
 		player.updateInventory();
 

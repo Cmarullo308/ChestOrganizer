@@ -1,6 +1,7 @@
 package me.ChestOrganizer.main;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -24,6 +25,10 @@ public class MyEvents implements Listener {
 
 		Player player = e.getPlayer();
 
+		if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE) {
+			return;
+		}
+
 		if (!player.hasPermission("ChestOrganizer.SortContainer")) {
 			return;
 		}
@@ -35,7 +40,6 @@ public class MyEvents implements Listener {
 		Block blockClicked = player.getTargetBlockExact(5);
 
 		if (blockClicked.getType() == Material.ENDER_CHEST) {
-//			sortPlayersEnderChest(player);
 			plugin.sorter.sortPlayersEnderChest(player);
 			player.sendMessage(ChatColor.AQUA + "Your ender chest is sorted!");
 			return;
