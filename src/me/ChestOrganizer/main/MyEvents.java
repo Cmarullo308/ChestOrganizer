@@ -3,13 +3,11 @@ package me.ChestOrganizer.main;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class MyEvents implements Listener {
 	ChestOrganizer plugin;
@@ -27,7 +25,6 @@ public class MyEvents implements Listener {
 		Player player = e.getPlayer();
 
 		if (!player.hasPermission("ChestOrganizer.SortContainer")) {
-			player.sendMessage("NP");
 			return;
 		}
 
@@ -38,114 +35,21 @@ public class MyEvents implements Listener {
 		Block blockClicked = player.getTargetBlockExact(5);
 
 		if (blockClicked.getType() == Material.ENDER_CHEST) {
-			sortPlayersEnderChest(player);
+//			sortPlayersEnderChest(player);
+			plugin.sorter.sortPlayersEnderChest(player);
+			player.sendMessage(ChatColor.AQUA + "Your ender chest is sorted!");
 			return;
 		} else if (isSortableContainer(blockClicked)) {
-			sortContainer(blockClicked, player);
+			plugin.sorter.sortContainer(blockClicked, player);
+			player.sendMessage(ChatColor.AQUA + "Your " + blockTypeWithoutUnderscores(blockClicked) + " is sorted!");
 			return;
 		} else {
 			return;
 		}
-
-//		if (!isSortableContainer(blockClicked)) {
-//			return;
-//		} else if (blockClicked.getType() == Material.ENDER_CHEST) {
-//			sortPlayersEnderChest(player);
-//			return;
-//		}
-
 	}
 
-	private void sortContainer(Block blockClicked, Player player) {
-		Container container = (Container) blockClicked.getState();
-
-		// Sorts the contents but doesn't combine them
-		ItemStack[] sortedContents = sortContents(container.getInventory().getContents());
-
-		container.getInventory().clear();
-
-		for (int slot = 0; slot < sortedContents.length; slot++) {
-			if (sortedContents[slot] != null) {
-				container.getInventory().addItem(sortedContents[slot]);
-			}
-		}
-
-		player.sendMessage(ChatColor.AQUA + "Your " + typeWithoutUnderscores(blockClicked) + " is sorted!");
-	}
-
-	private String typeWithoutUnderscores(Block blockClicked) {
+	private String blockTypeWithoutUnderscores(Block blockClicked) {
 		return blockClicked.getType().toString().replace('_', ' ').toLowerCase();
-	}
-
-	private void sortPlayersEnderChest(Player player) {
-		ItemStack[] sortedContents = sortContents(player.getEnderChest().getContents());
-		sortContents(sortedContents);
-		player.getEnderChest().clear();
-		for (int slot = 0; slot < player.getEnderChest().getSize(); slot++) {
-			if (sortedContents[slot] != null) {
-				player.getEnderChest().addItem(sortedContents[slot]);
-			}
-		}
-
-		player.sendMessage(ChatColor.AQUA + "Your ender chest is sorted!");
-	}
-
-	private ItemStack[] sortContents(ItemStack[] contents) {
-		quickSortContents(contents, 0, contents.length - 1);
-
-		return contents;
-	}
-
-	private void quickSortContents(ItemStack[] contents, int low, int high) {
-		if (low < high) {
-			int partitionIndex = partition(contents, low, high);
-
-			quickSortContents(contents, low, partitionIndex - 1);
-			quickSortContents(contents, partitionIndex + 1, high);
-		}
-
-	}
-
-	private int partition(ItemStack[] contents, int low, int high) {
-		ItemStack pivot = contents[high];
-		int i = low - 1;
-
-		for (int j = low; j < high; j++) {
-			if (compareItemStacks(contents[j], pivot) <= 0) {
-				i++;
-
-				ItemStack temp = contents[i];
-				contents[i] = contents[j];
-				contents[j] = temp;
-			}
-		}
-
-		ItemStack swapTemp = contents[i + 1];
-		contents[i + 1] = contents[high];
-		contents[high] = swapTemp;
-
-		return i + 1;
-	}
-
-	private int compareItemStacks(ItemStack itemStack1, ItemStack itemStack2) {
-		if (itemStack1 == null && itemStack2 == null) {
-			return 0;
-		} else if (itemStack1 == null) {
-			return 1;
-		} else if (itemStack2 == null) {
-			return -1;
-		}
-
-		int result = itemStack1.getType().compareTo(itemStack2.getType());
-
-		if (result != 0) {
-			return result;
-		}
-
-		// Compare metas
-		result = itemStack1.getItemMeta().toString().compareTo(itemStack2.getItemMeta().toString());
-
-		return result;
 	}
 
 	private boolean isSortableContainer(Block blockClicked) {

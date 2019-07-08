@@ -14,3 +14,6 @@ permissions:
    ChestOrganizer.SortContainer:
       description: Allowed to sort contatiners
       default: true
+   ChestOrganizer.SortPlayerInventory:
+      description: Allowed to sort own player inventory
+      default: true
