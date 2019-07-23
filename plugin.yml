@@ -1,7 +1,7 @@
 main: me.ChestOrganizer.main.ChestOrganizer
 name: ChestOrganizer
 author: CJM
-version: 1.0
+version: 1.1
 api-version: 1.14
 description: Players can auto organize chests
 

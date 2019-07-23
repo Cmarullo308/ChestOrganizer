@@ -4,7 +4,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ChestOrganizer extends JavaPlugin implements CommandExecutor {
@@ -18,7 +21,9 @@ public class ChestOrganizer extends JavaPlugin implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (args.length == 1) {
+		if (args.length == 0) {
+			test(sender);
+		} else if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("SortPlayerInventory") || args[0].equalsIgnoreCase("spi")) {
 				if (!(sender instanceof Player)) {
 					sender.sendMessage(ChatColor.RED + "Must be a player to run this command");
@@ -33,7 +38,7 @@ public class ChestOrganizer extends JavaPlugin implements CommandExecutor {
 
 				sorter.sortPlayerInventory(player);
 			} else if (args[0].equalsIgnoreCase("help")) {
-				
+
 			}
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("SortPlayerInventory") || args[0].equalsIgnoreCase("spi")) {
@@ -55,6 +60,20 @@ public class ChestOrganizer extends JavaPlugin implements CommandExecutor {
 		}
 
 		return true;
+	}
+
+	private void test(CommandSender sender) {
+		Player player = (Player) sender;
+
+		ItemStack fuck = player.getInventory().getContents()[player.getInventory().getHeldItemSlot()];
+		
+		EnchantmentStorageMeta meta =(EnchantmentStorageMeta) fuck.getItemMeta();
+		
+		
+//		for(Enchantment e : meta.getEnchants().keySet()) {
+//			consoleMessage(e.toString());
+//		}
+		
 	}
 
 	public void consoleMessage(String message) {

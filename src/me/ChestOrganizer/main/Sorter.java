@@ -1,12 +1,9 @@
 package me.ChestOrganizer.main;
 
-import java.util.HashMap;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class Sorter {
@@ -88,12 +85,13 @@ public class Sorter {
 			return -1;
 		}
 
+		//Compare type
 		int result = itemStack1.getType().compareTo(itemStack2.getType());
 
 		if (result != 0) {
 			return result;
 		}
-
+		
 		// Compare metas
 		result = itemStack1.getItemMeta().toString().compareTo(itemStack2.getItemMeta().toString());
 
